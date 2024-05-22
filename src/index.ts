@@ -1,13 +1,13 @@
 import 'reflect-metadata';
 import express, { NextFunction, Request, Response } from 'express';
-import cors from 'cors';
+// import cors from 'cors';
 import routes from './shared/http/routes';
 import ApiError from './enum/ApiError';
 import './shared/typeOrm/connection';
 
 const app = express();
 
-app.use(cors);
+// app.use(cors);
 app.use(express.json());
 
 app.use(routes);
@@ -29,7 +29,7 @@ app.use(
   },
 );
 
-app.listen(3000, () => {
+app.listen(2500, () => {
   // eslint-disable-next-line no-console
-  console.log('Server started on port 3000');
+  console.info('Server started on port 2500');
 });
