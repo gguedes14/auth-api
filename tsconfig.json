@@ -10,7 +10,7 @@
     "noImplicitAny": true,
     "strictPropertyInitialization": false,
     "esModuleInterop": true,
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
       "@model/*": ["src/model/*"],
       "@shared/*": ["src/shared/*"]

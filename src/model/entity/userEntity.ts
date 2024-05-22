@@ -1,18 +1,18 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('users')
-export class User {
-  @PrimaryGeneratedColumn({ type: 'int', unsigned: true })
+class User {
+  @PrimaryGeneratedColumn({ type: 'int' })
   id: number;
 
   @Column()
   name: string;
 
   @Column()
-  last_name: string;
+  lastName: string;
 
   @Column()
-  user_id: string;
+  userId: string;
 
   @Column()
   email: string;
@@ -26,3 +26,5 @@ export class User {
   @Column()
   updated_at: Date;
 }
+
+export default User;
