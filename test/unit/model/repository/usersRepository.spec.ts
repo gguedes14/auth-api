@@ -1,4 +1,4 @@
-import { UsersRepository } from '../../../../src/model/repository/loginRepository';
+import { UsersRepository } from '../../../../src/model/repository/usersRepository';
 import Users from '../../../../src/model/entity/userEntity';
 import { Repository } from 'typeorm/index.js';
 
@@ -16,5 +16,15 @@ describe('Test UsersRepository', () => {
     const user = await new UsersRepository().findByEmail(emailMock);
 
     expect(user).toBe(userMock);
+  });
+
+  test('Test findByPass', async () => {
+    const passMock = 'pass';
+
+    jest.spyOn(Repository.prototype, 'findOne').mockResolvedValue(passMock);
+
+    const user = await new UsersRepository().findByPass(passMock);
+
+    expect(user).toBe(passMock);
   });
 });

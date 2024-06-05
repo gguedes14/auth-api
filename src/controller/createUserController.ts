@@ -1,11 +1,11 @@
-import loginService from '../services/loginService';
+import createUserService from '../services/createUsersService';
 import { Request, Response } from 'express';
 
-class loginController {
+class createUserController {
   public async create(request: Request, response: Response): Promise<Response> {
     const { name, lastName, userId, email, password } = request.body;
 
-    const createUser = new loginService();
+    const createUser = new createUserService();
 
     const user = await createUser.createUser({
       name,
@@ -19,4 +19,4 @@ class loginController {
   }
 }
 
-export default loginController;
+export default createUserController;
