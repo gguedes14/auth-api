@@ -1,5 +1,5 @@
 import { getCustomRepository } from 'typeorm';
-import { UsersRepository } from '../model/repository/loginRepository';
+import { UsersRepository } from '../model/repository/usersRepository';
 import ApiError from '../enum/ApiError';
 
 interface ILogin {
@@ -16,12 +16,12 @@ class loginService {
     const usersExists = await usersRepository.findByEmail(email);
 
     if (usersExists) {
-      throw new ApiError('This user already exists', 400);
+      return new ApiError('User already exists', 400);
     }
 
     const randomNumber = () => Math.floor(Math.random() * 1000);
 
-    userId = `${name}.${lastName}${randomNumber()}`;
+    userId = `${name}.${lastName}${randomNumber()}`.toLowerCase();
 
     const user = usersRepository.create({
       name,

@@ -1,9 +1,12 @@
 import { Router } from 'express';
-import loginRouter from '../../shared/routes/loginRoutes';
+import loginRouter from '../routes/createUsersRoutes';
+import authenticate from '../routes/authRoutes';
 
 const routes = Router();
 
-routes.use('/login', loginRouter);
+routes.use('/create', loginRouter);
+
+routes.use('/login', authenticate);
 
 routes.get('/', (request, response) => {
   return response.json({

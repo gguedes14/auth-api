@@ -31,5 +31,5 @@ app.use(
 
 app.listen(2500, () => {
   // eslint-disable-next-line no-console
-  console.info('Server started on port 2500');
+  console.info('Server started on port 2500 🚀');
 });

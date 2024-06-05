@@ -12,4 +12,14 @@ export class UsersRepository extends Repository<Users> {
 
     return findEmail;
   }
+
+  public async findByPass(password: string): Promise<Users | undefined> {
+    const findPass = this.findOne({
+      where: {
+        password,
+      },
+    });
+
+    return findPass;
+  }
 }

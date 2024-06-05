@@ -1,5 +1,5 @@
 import { getCustomRepository } from 'typeorm/index.js';
-import loginService from '../../../src/services/loginService';
+import loginService from '../../../src/services/createUsersService';
 import ApiError from '../../../src/enum/ApiError';
 
 jest.mock('typeorm', () => {
@@ -82,10 +82,8 @@ describe('Test loginService', () => {
 
     const service = new loginService();
 
-    const expectedError = new ApiError('This user already exists', 400);
+    const createdUser = await service.createUser(userMock);
 
-    await expect(service.createUser(userMock)).rejects.toStrictEqual(
-      expectedError,
-    );
+    expect(createdUser).toBeInstanceOf(ApiError);
   });
 });
