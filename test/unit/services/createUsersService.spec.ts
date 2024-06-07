@@ -1,6 +1,5 @@
 import { getCustomRepository } from 'typeorm/index.js';
 import loginService from '../../../src/services/createUsersService';
-import ApiError from '../../../src/enum/ApiError';
 
 jest.mock('typeorm', () => {
   const actualTypeorm = jest.requireActual('typeorm');
@@ -65,13 +64,36 @@ describe('Test loginService', () => {
     });
   });
 
-  test('Return error if user already exists', async () => {
+  test('Update user name', async () => {
     const userMock = {
       name: 'John',
       lastName: 'Doe',
-      userId: 'john.doe123',
       email: 'email@email.com',
-      password: 'testPass',
+      userId: 'John.Doe123',
+      password: 'pass',
+    };
+
+    const usersRepositoryMock = {
+      update: jest.fn(),
+    };
+
+    (getCustomRepository as jest.Mock).mockReturnValue(usersRepositoryMock);
+
+    const service = new loginService();
+    await service.updateName(userMock);
+
+    expect(usersRepositoryMock.update).toHaveBeenCalledWith('John.Doe123', {
+      name: 'John',
+    });
+  });
+
+  test('User already exists', async () => {
+    const userMock = {
+      name: 'John',
+      lastName: 'Doe',
+      email: 'email@email.com',
+      userId: 'John.Doe123',
+      password: 'pass',
     };
 
     const usersRepositoryMock = {
@@ -84,6 +106,7 @@ describe('Test loginService', () => {
 
     const createdUser = await service.createUser(userMock);
 
-    expect(createdUser).toBeInstanceOf(ApiError);
+    expect(createdUser).toHaveProperty('message', 'User already exists');
+    expect(createdUser).toHaveProperty('statusCode', 400);
   });
 });

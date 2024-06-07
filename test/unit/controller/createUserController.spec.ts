@@ -31,4 +31,27 @@ describe('Test loginController', () => {
     expect(createUserMock).toHaveBeenCalledWith(requestMock.body);
     expect(responseMock.json).toHaveBeenCalledWith(requestMock.body);
   });
+
+  test('Test updateName', async () => {
+    const requestMock = {
+      body: {
+        name: 'test',
+      },
+    } as Request;
+
+    const responseMock = {
+      json: jest.fn(),
+    } as unknown as Response;
+
+    const updateNameMock = jest
+      .spyOn(loginService.prototype, 'updateName')
+      .mockResolvedValue(undefined);
+
+    await new loginController().updateName(requestMock, responseMock);
+
+    expect(updateNameMock).toHaveBeenCalledWith('test');
+    expect(responseMock.json).toHaveBeenCalledWith({
+      message: 'Name updated successfully',
+    });
+  });
 });

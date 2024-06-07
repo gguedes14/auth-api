@@ -3,6 +3,26 @@ import Users from '../entity/userEntity';
 
 @EntityRepository(Users)
 export class UsersRepository extends Repository<Users> {
+  public async findByName(name: string): Promise<Users | undefined> {
+    const findName = this.findOne({
+      where: {
+        name,
+      },
+    });
+
+    return findName;
+  }
+
+  public async findByLastName(lastName: string): Promise<Users | undefined> {
+    const findLastName = this.findOne({
+      where: {
+        lastName,
+      },
+    });
+
+    return findLastName;
+  }
+
   public async findByEmail(email: string): Promise<Users | undefined> {
     const findEmail = this.findOne({
       where: {
@@ -21,5 +41,15 @@ export class UsersRepository extends Repository<Users> {
     });
 
     return findPass;
+  }
+
+  public async findByUserId(userId: string): Promise<Users | undefined> {
+    const findUserId = this.findOne({
+      where: {
+        userId,
+      },
+    });
+
+    return findUserId;
   }
 }

@@ -1,6 +1,8 @@
 import { getCustomRepository } from 'typeorm/index.js';
 import authService from '../../../src/services/authService';
 import ApiError from '../../../src/enum/ApiError';
+import Env from '../../../src/utils/envVariables';
+import { sign } from 'jsonwebtoken';
 
 jest.mock('typeorm', () => {
   const actualTypeorm = jest.requireActual('typeorm');
@@ -17,8 +19,8 @@ describe('Test authService', () => {
 
   test('Authenticate user', async () => {
     const usersRepositoryMock = {
-      findByEmail: jest.fn().mockResolvedValue({}),
-      findByPass: jest.fn().mockResolvedValue({}),
+      findByEmail: jest.fn().mockResolvedValue({ id: 1 }),
+      findByPass: jest.fn().mockResolvedValue({ id: 1 }),
     };
 
     (getCustomRepository as jest.Mock).mockReturnValue(usersRepositoryMock);
@@ -29,7 +31,16 @@ describe('Test authService', () => {
 
     const result = await authService.authenticate(email, password);
 
-    expect(result).toBeTruthy();
+    expect(result).toEqual({
+      auth: { id: 1 },
+      token: sign({}, Env.getTokenJwt(), {
+        subject: '1',
+        expiresIn: '1d',
+      }),
+    });
+
+    expect(usersRepositoryMock.findByEmail).toHaveBeenCalledWith(email);
+    expect(usersRepositoryMock.findByPass).toHaveBeenCalledWith(password);
   });
 
   test('Authenticate user with wrong email', async () => {
