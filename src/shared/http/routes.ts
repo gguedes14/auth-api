@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import loginRouter from '../routes/createUsersRoutes';
 import authenticate from '../routes/authRoutes';
+import JwtAuthenticate from '../../utils/jwt';
 
 const routes = Router();
 
-routes.use('/create', loginRouter);
+routes.use('/create', JwtAuthenticate, loginRouter);
 
 routes.use('/login', authenticate);
 

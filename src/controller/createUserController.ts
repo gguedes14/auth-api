@@ -17,6 +17,19 @@ class createUserController {
 
     return response.json(user);
   }
+
+  public async updateName(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { name } = request.body;
+
+    const createUser = new createUserService();
+
+    await createUser.updateName(name);
+
+    return response.json({ message: 'Name updated successfully' });
+  }
 }
 
 export default createUserController;

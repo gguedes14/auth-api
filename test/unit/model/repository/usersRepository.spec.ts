@@ -7,6 +7,28 @@ describe('Test UsersRepository', () => {
     jest.restoreAllMocks();
   });
 
+  test('Test findByName', async () => {
+    const nameMock = 'test';
+    const userMock = new Users();
+
+    jest.spyOn(Repository.prototype, 'findOne').mockResolvedValue(userMock);
+
+    const user = await new UsersRepository().findByName(nameMock);
+
+    expect(user).toBe(userMock);
+  });
+
+  test('Test findByLastName', async () => {
+    const lastNameMock = 'test';
+    const userMock = new Users();
+
+    jest.spyOn(Repository.prototype, 'findOne').mockResolvedValue(userMock);
+
+    const user = await new UsersRepository().findByLastName(lastNameMock);
+
+    expect(user).toBe(userMock);
+  });
+
   test('Test findByEmail', async () => {
     const emailMock = 'test@email.com';
     const userMock = new Users();
@@ -26,5 +48,16 @@ describe('Test UsersRepository', () => {
     const user = await new UsersRepository().findByPass(passMock);
 
     expect(user).toBe(passMock);
+  });
+
+  test('Test findByUserId', async () => {
+    const userIdMock = 'test';
+    const userMock = new Users();
+
+    jest.spyOn(Repository.prototype, 'findOne').mockResolvedValue(userMock);
+
+    const user = await new UsersRepository().findByUserId(userIdMock);
+
+    expect(user).toBe(userMock);
   });
 });
