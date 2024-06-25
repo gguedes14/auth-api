@@ -29,14 +29,18 @@ describe('Test authService', () => {
 
     const password = 'password';
 
+    jest.spyOn(Env, 'getTokenJwt').mockReturnValue('token');
+
+    const token = sign({}, 'token', {
+      subject: '1',
+      expiresIn: '2d',
+    });
+
     const result = await authService.authenticate(email, password);
 
     expect(result).toEqual({
       auth: { id: 1 },
-      token: sign({}, Env.getTokenJwt(), {
-        subject: '1',
-        expiresIn: '1d',
-      }),
+      token,
     });
 
     expect(usersRepositoryMock.findByEmail).toHaveBeenCalledWith(email);
@@ -57,5 +61,23 @@ describe('Test authService', () => {
     const result = await authService.authenticate(email, password);
 
     expect(result).toBeInstanceOf(ApiError);
+  });
+
+  test('Save token', async () => {
+    const tokensRepositoryMock = {
+      create: jest.fn(),
+      save: jest.fn(),
+    };
+
+    (getCustomRepository as jest.Mock).mockReturnValue(tokensRepositoryMock);
+
+    jest.spyOn(Env, 'getTokenJwt').mockReturnValue('token');
+
+    const token = sign({}, Env.getTokenJwt());
+
+    await authService.saveToken(token);
+
+    expect(tokensRepositoryMock.create).toHaveBeenCalledWith({ token });
+    expect(tokensRepositoryMock.save).toHaveBeenCalled();
   });
 });

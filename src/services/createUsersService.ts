@@ -35,12 +35,6 @@ class loginService {
 
     return user;
   }
-
-  public async updateName({ userId, name }: ILogin) {
-    const usersRepository = getCustomRepository(UsersRepository);
-
-    await usersRepository.update(userId, { name });
-  }
 }
 
 export default loginService;

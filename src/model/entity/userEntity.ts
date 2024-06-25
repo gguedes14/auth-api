@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import UsersTokens from './userTokensEntity';
 
 @Entity('users')
 class User {
@@ -20,11 +28,14 @@ class User {
   @Column()
   password: string;
 
-  @Column()
+  @CreateDateColumn()
   created_at: Date;
 
-  @Column()
+  @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToMany(() => UsersTokens, userToken => userToken.user)
+  token: UsersTokens[];
 }
 
 export default User;

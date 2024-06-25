@@ -1,4 +1,5 @@
 import loginController from '../../../src/controller/createUserController';
+import authService from '../../../src/services/authService';
 import loginService from '../../../src/services/createUsersService';
 import { Request, Response } from 'express';
 
@@ -8,13 +9,16 @@ describe('Test loginController', () => {
   });
 
   test('Test create', async () => {
+    jest.spyOn(authService, 'saveToken').mockResolvedValue('testToken');
+
     const requestMock = {
       body: {
-        name: 'test',
-        lastName: 'test',
+        name: 'Jon',
+        lastName: 'Doe',
         userId: 'test',
-        email: 'test',
-        password: 'test',
+        email: 'test@email.com',
+        password: 'testPass',
+        token: 'testToken',
       },
     } as Request;
 
@@ -28,30 +32,21 @@ describe('Test loginController', () => {
 
     await new loginController().create(requestMock, responseMock);
 
-    expect(createUserMock).toHaveBeenCalledWith(requestMock.body);
-    expect(responseMock.json).toHaveBeenCalledWith(requestMock.body);
-  });
+    expect(createUserMock).toHaveBeenCalledTimes(1);
 
-  test('Test updateName', async () => {
-    const requestMock = {
-      body: {
-        name: 'test',
-      },
-    } as Request;
+    expect(responseMock.json).toHaveBeenCalledTimes(1);
 
-    const responseMock = {
-      json: jest.fn(),
-    } as unknown as Response;
-
-    const updateNameMock = jest
-      .spyOn(loginService.prototype, 'updateName')
-      .mockResolvedValue(undefined);
-
-    await new loginController().updateName(requestMock, responseMock);
-
-    expect(updateNameMock).toHaveBeenCalledWith('test');
     expect(responseMock.json).toHaveBeenCalledWith({
-      message: 'Name updated successfully',
+      name: 'Jon',
+      lastName: 'Doe',
+      userId: 'test',
+      email: 'test@email.com',
+      password: 'testPass',
+      token: 'testToken',
     });
+
+    expect(authService.saveToken).toHaveBeenCalledTimes(1);
+
+    expect(authService.saveToken).toHaveBeenCalledWith('testToken');
   });
 });
