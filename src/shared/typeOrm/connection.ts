@@ -1,13 +1,3 @@
-import { createConnection, getConnection } from 'typeorm';
+import { createConnection } from 'typeorm';
 
-const connection = {
-  async create() {
-    await createConnection();
-  },
-
-  async close() {
-    await getConnection().close();
-  },
-};
-
-export default connection;
+createConnection();

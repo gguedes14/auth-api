@@ -1,18 +1,17 @@
 import { Router } from 'express';
 import loginRouter from '../routes/createUsersRoutes';
 import authenticate from '../routes/authRoutes';
-// import JwtAuthenticate from '../../utils/jwt';
+import usersRoute from '../routes/usersRoutes';
+import JwtAuthenticate from '../../utils/jwt';
 
 const routes = Router();
 
-routes.use('/create', loginRouter);
+routes.use('/users', loginRouter);
 
-routes.use('/login', authenticate);
+routes.use('/login', JwtAuthenticate, authenticate);
 
-routes.get('/', (request, response) => {
-  return response.json({
-    message: 'Hello World',
-  });
-});
+routes.use('/update', JwtAuthenticate, usersRoute);
+
+routes.use('/profile', JwtAuthenticate, usersRoute);
 
 export default routes;
