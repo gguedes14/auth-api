@@ -6,6 +6,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   JoinColumn,
+  PrimaryColumn,
 } from 'typeorm';
 
 import User from './userEntity';
@@ -16,6 +17,10 @@ class UsersTokens {
   id: number;
 
   @Column()
+  @PrimaryColumn()
+  email: string;
+
+  @Column()
   token: string;
 
   @CreateDateColumn()
@@ -24,8 +29,11 @@ class UsersTokens {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @ManyToOne(() => User, user => user.token, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'id' })
+  @ManyToOne(() => User, user => user.token, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'email', referencedColumnName: 'id' })
   user: User;
 }
 

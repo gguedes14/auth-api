@@ -1,14 +1,12 @@
-import authService from '../services/authService';
-import createUserService from '../services/createUsersService';
+import loginService from '../services/createUsersService';
 import { Request, Response } from 'express';
+import authService from '../services/authService';
 
 class createUserController {
-  public async create(request: Request, response: Response): Promise<Response> {
+  static async create(request: Request, response: Response): Promise<Response> {
     const { name, lastName, userId, email, password, token } = request.body;
 
-    const createUser = new createUserService();
-
-    const user = await createUser.createUser({
+    const user = await loginService.createUser({
       name,
       lastName,
       userId,
@@ -16,7 +14,7 @@ class createUserController {
       password,
     });
 
-    await authService.saveToken(token);
+    await authService.saveToken(token, email);
 
     return response.json(user);
   }

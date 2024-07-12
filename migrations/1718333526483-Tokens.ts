@@ -14,6 +14,10 @@ export class Tokens1718333526483 implements MigrationInterface {
             generationStrategy: 'increment',
           },
           {
+            name: 'email',
+            type: 'varchar',
+          },
+          {
             name: 'token',
             type: 'varchar',
           },

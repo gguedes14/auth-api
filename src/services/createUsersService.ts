@@ -11,7 +11,7 @@ interface ILogin {
 }
 
 class loginService {
-  public async createUser({ name, lastName, userId, email, password }: ILogin) {
+  static async createUser({ name, lastName, userId, email, password }: ILogin) {
     const usersRepository = getCustomRepository(UsersRepository);
     const usersExists = await usersRepository.findByEmail(email);
 

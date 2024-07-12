@@ -8,37 +8,59 @@ import { Tokens } from '../model/repository/tokensRepository';
 class authService {
   static async authenticate(email: string, password: string) {
     const usersRepository = getCustomRepository(UsersRepository);
-    const auth =
-      (await usersRepository.findByEmail(email)) &&
-      (await usersRepository.findByPass(password));
+    const authEmail = await usersRepository.findByEmail(email);
 
-    if (!auth) {
+    const authPass = await usersRepository.findByPass(password);
+
+    if (!authEmail) {
       return new ApiError('User not found', 400);
     }
 
-    const token = sign({}, Env.getTokenJwt(), {
-      subject: auth.id.toString(),
-      expiresIn: '2d',
+    if (!authPass) {
+      return new ApiError('User not found', 400);
+    }
+
+    sign({}, Env.getTokenJwt(), {
+      subject: authPass.id.toString(),
+      expiresIn: '30d',
     });
 
-    return {
-      auth,
-      token,
-    };
+    return 'login with sucess';
   }
 
-  static async saveToken(token: string) {
+  static async saveToken(token: string, email: string) {
     const tokensRepository = getCustomRepository(Tokens);
+    const usersRepository = getCustomRepository(UsersRepository);
+
+    const verifyUserRegistry = await usersRepository.findByEmail(email);
+
+    if (!verifyUserRegistry) {
+      throw new ApiError('User not found', 400);
+    }
+
+    const verifyTokenRegistry = await tokensRepository.findByToken(
+      token,
+      email,
+    );
+
+    if (verifyTokenRegistry) {
+      throw new ApiError('Token already exists', 400);
+    }
+
+    email = verifyUserRegistry.email;
 
     token = sign({}, Env.getTokenJwt());
 
+    await tokensRepository.findByToken(token, email);
+
     const tokenSave = tokensRepository.create({
       token,
+      email,
     });
 
     await tokensRepository.save(tokenSave);
 
-    return token;
+    return tokenSave;
   }
 }
 
