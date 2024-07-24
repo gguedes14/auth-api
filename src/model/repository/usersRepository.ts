@@ -1,19 +1,19 @@
-import { EntityRepository, Repository } from 'typeorm';
+import { Entity, Repository } from 'typeorm';
 import Users from '../entity/userEntity';
 
-@EntityRepository(Users)
+@Entity()
 export class UsersRepository extends Repository<Users> {
-  public async findById(id: number): Promise<Users | undefined> {
-    const findId = this.findOne({
+  public async findById(id: number){
+    const findById = this.findOne({
       where: {
         id,
       },
     });
 
-    return findId;
+    return findById;
   }
 
-  public async findByName(name: string): Promise<Users | undefined> {
+  public async findByName(name: string){
     const findName = this.findOne({
       where: {
         name,
@@ -23,7 +23,7 @@ export class UsersRepository extends Repository<Users> {
     return findName;
   }
 
-  public async findByLastName(lastName: string): Promise<Users | undefined> {
+  public async findByLastName(lastName: string){
     const findLastName = this.findOne({
       where: {
         lastName,
@@ -33,7 +33,7 @@ export class UsersRepository extends Repository<Users> {
     return findLastName;
   }
 
-  public async findByEmail(email: string): Promise<Users | undefined> {
+  public async findByEmail(email: string){
     const findEmail = this.findOne({
       where: {
         email,
@@ -43,7 +43,7 @@ export class UsersRepository extends Repository<Users> {
     return findEmail;
   }
 
-  public async findByPass(password: string): Promise<Users | undefined> {
+  public async findByPass(password: string){
     const findPass = this.findOne({
       where: {
         password,
@@ -53,7 +53,7 @@ export class UsersRepository extends Repository<Users> {
     return findPass;
   }
 
-  public async findByUserId(userId: string): Promise<Users | undefined> {
+  public async findByUserId(userId: string){
     const findUserId = this.findOne({
       where: {
         userId,
@@ -66,7 +66,7 @@ export class UsersRepository extends Repository<Users> {
   public async resetPassword(
     email: string,
     password: string,
-  ): Promise<Users | undefined> {
+  ){
     const resetPass = this.findOne({
       where: {
         email,

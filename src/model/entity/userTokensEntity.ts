@@ -6,18 +6,16 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   JoinColumn,
-  PrimaryColumn,
 } from 'typeorm';
 
 import User from './userEntity';
 
-@Entity('tokens')
+@Entity({ name: 'users_tokens' })
 class UsersTokens {
   @PrimaryGeneratedColumn({ type: 'int' })
   id: number;
 
   @Column()
-  @PrimaryColumn()
   email: string;
 
   @Column()

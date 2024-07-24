@@ -3,7 +3,7 @@ import express, { NextFunction, Request, Response } from 'express';
 // import cors from 'cors';
 import routes from './shared/http/routes';
 import ApiError from './enum/ApiError';
-import './shared/typeOrm/connection';
+import '../database/config/database';
 
 const app = express();
 

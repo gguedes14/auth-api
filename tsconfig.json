@@ -22,5 +22,12 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src", "migrations"]
+  "include": [
+    "src/**/*.ts",
+    "database/**/*.ts",
+  ],
+  "exclude": [
+    "node_modules",
+    "build"
+  ]
 }

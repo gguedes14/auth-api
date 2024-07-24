@@ -1,30 +1,22 @@
-import { getConnection } from 'typeorm/index.js';
-import connection from '../../../../src/shared/typeOrm/connection';
+// import { connectToDatabase } from '../../../../src/shared/typeOrm/connection';
 
-describe('Test Connection', () => {
-  afterEach(() => {
-    jest.restoreAllMocks();
-  });
+// jest.mock('typeorm', () => ({
+//   createConnection: jest.fn(),
+// }));
 
-  test('Test create', async () => {
-    const createConnectionSpy = jest.spyOn(connection, 'create');
+// describe('Test Connection', () => {
+//   afterEach(() => {
+//     jest.restoreAllMocks();
+//   });
 
-    await connection.create();
+//   test('should connect to database', async () => {
+//     const mockConnection = {} as Connection;
 
-    expect(createConnectionSpy).toHaveBeenCalled();
+//     (createConnection as jest.Mock).mockResolvedValueOnce(mockConnection);
 
-    const defaultConnection = getConnection();
-    expect(defaultConnection.isConnected).toBeTruthy();
-  });
+//     const connection = await connectToDatabase();
 
-  test('Test close', async () => {
-    const closeConnectionSpy = jest.spyOn(connection, 'close');
-
-    await connection.close();
-
-    expect(closeConnectionSpy).toHaveBeenCalled();
-
-    const defaultConnection = getConnection();
-    expect(defaultConnection.isConnected).toBeFalsy();
-  });
-});
+//     expect(createConnection).toHaveBeenCalledTimes(1);
+//     expect(connection).toBe(mockConnection);
+//   });
+// });

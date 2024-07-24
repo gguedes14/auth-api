@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import UsersTokens from './userTokensEntity';
 
-@Entity('users')
+@Entity({ name: 'users'})
 class User {
   @PrimaryGeneratedColumn({ type: 'int' })
   id: number;

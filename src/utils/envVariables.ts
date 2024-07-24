@@ -118,4 +118,24 @@ export default class Env {
   static getTokenJwt(): string {
     return Env.getStringOrThrow('JWT_TOKEN');
   }
+
+  static getDbHost(): string {
+    return Env.getStringOrThrow('DB_HOST');
+  }
+
+  static getDbPort(): number {
+    return Env.getNumberOrThrow('DB_PORT');
+  }
+
+  static getDbUsername(): string {
+    return Env.getStringOrThrow('DB_USER');
+  }
+
+  static getDbPassword(): string {
+    return Env.getStringOrThrow('DB_PASSWORD');
+  }
+
+  static getDbName(): string {
+    return Env.getStringOrThrow('DB_NAME');
+  }
 }
