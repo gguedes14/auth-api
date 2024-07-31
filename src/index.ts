@@ -1,13 +1,13 @@
-import 'reflect-metadata';
 import express, { NextFunction, Request, Response } from 'express';
 // import cors from 'cors';
-import routes from './shared/http/routes';
+import routes from './routes/http/routes';
 import ApiError from './enum/ApiError';
 import '../database/config/database';
 
 const app = express();
 
 // app.use(cors);
+
 app.use(express.json());
 
 app.use(routes);

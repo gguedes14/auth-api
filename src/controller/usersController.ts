@@ -1,33 +1,50 @@
 import { Request, Response } from 'express';
-import usersService from '../services/usersService';
+import createUserModel from '../model/UsersModel';
 
-class updateUserController {
-  static async getProfile(
-    request: Request,
-    response: Response,
-  ): Promise<Response> {
-    const { email } = request.query;
+class UsersController {
+  static async createUser(request: Request, response: Response): Promise<Response> {
+    const { name, last_name, email, user_id, password } = request.body;
 
-    const user = await usersService.getProfile({ email: email as string });
+    if (user_id === null) {
+      const randomNumber = () => Math.floor(Math.random() * 1000);
 
-    return response.json(user);
+      const userId = `${name}.${last_name}${randomNumber()}`.toLowerCase();
+
+      const user = await createUserModel.createUser({
+        name,
+        last_name,
+        email,
+        user_id: userId,
+        password,
+      });
+
+      return response.status(200).json(user);
+    } else {
+      const user = await createUserModel.createUser({
+        name,
+        last_name,
+        email,
+        user_id,
+        password,
+      });
+
+      return response.status(200).json(user);
+    }
   }
 
-  static async update(request: Request, response: Response): Promise<Response> {
-    const { name, lastName, userId, email, password, old_password } =
-      request.body;
+  static async searchByEmail(request: Request, response: Response) {
+    const { email } = request.query;
 
-    const user = await usersService.updateUser({
-      name,
-      lastName,
-      userId,
-      email,
-      password,
-      old_password,
+    const user = await createUserModel.searchByEmail({
+      email: email as string,
     });
 
-    return response.json(user);
+    if (!email) {
+      return response.status(400).json({ message: 'Email is required' });
+    }
+
+    return response.status(200).json(user);
   }
 }
 
-export default updateUserController;
+export default UsersController;

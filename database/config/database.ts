@@ -1,9 +1,6 @@
 import Knex from 'knex';
-import config from './knexfile';
+import knexConfig from '../config/knexfile';
 
-const environment = process.env.APP_ENV || 'development';
+const knex = Knex(knexConfig);
 
-// @ts-ignore
-const connection = Knex(config[environment]);
-
-export default connection;
+export default knex;
