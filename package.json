@@ -10,8 +10,8 @@
     "start": "nodemon --watch 'src/' --exec 'ts-node src/index.ts' -e ts",
     "knex:make": "npx knex migrate:make --knexfile ./database/config/knexfile --env development",
     "knex:migrate": "npx knex migrate:latest --knexfile ./database/config/knexfile --env development",
-    "knex:rollback": "knex migrate:rollback --knexfile ./database/knexfile --env development",
-    "knex:seed": "knex seed:run --knexfile ./database/knexfile --env development"
+    "knex:rollback": "knex migrate:rollback --knexfile ./database/config/knexfile --env development",
+    "knex:seed": "knex seed:run --knexfile ./database/config/knexfile --env development"
   },
   "keywords": [],
   "author": "Gabriel Guedes",
