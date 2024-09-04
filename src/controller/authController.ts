@@ -19,11 +19,11 @@ class AuthController {
       return response.status(400).json({ message: 'User not found' });
     }
 
-    const token = sign({ email }, Env.getTokenJwt(), {
+    sign({ email }, Env.getTokenJwt(), {
       expiresIn: '30d',
     });
 
-    return response.status(200).json({ token });
+    return response.status(200).json('Authentication successful');
   }
 }
 

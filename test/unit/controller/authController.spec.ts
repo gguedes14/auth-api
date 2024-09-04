@@ -1,31 +1,36 @@
-// import authController from '../../../src/controller/authController';
-// import authService from '../../../src/services/authService';
-// import { Request, Response } from 'express';
+import AuthController from '../../../src/controller/authController';
+import { Request, Response } from 'express';
+import createUserModel from '../../../src/model/UsersModel';
 
-// describe('Test authController', () => {
-//   afterEach(() => {
-//     jest.restoreAllMocks();
-//   });
+describe('Controller Auth Controller', () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
 
-//   test('Test authenticate', async () => {
-//     const requestMock = {
-//       body: {
-//         email: 'test',
-//         password: 'test',
-//       },
-//     } as Request;
+  test('authenticate', async () => {
+    const request = {
+      body: {
+        email: 'email@email.com',
+        password: 'password123',
+      },
+    } as Request;
 
-//     const responseMock = {
-//       json: jest.fn(),
-//     } as unknown as Response;
+    const statusMock = jest.fn().mockReturnThis();
+    const jsonMock = jest.fn();
 
-//     const authenticateMock = jest
-//       .spyOn(authService, 'authenticate')
-//       .mockResolvedValue(requestMock.body);
+    const response = {
+      status: statusMock,
+      json: jsonMock,
+    } as unknown as Response;
 
-//     await new authController().authenticate(requestMock, responseMock);
+    jest.spyOn(createUserModel, 'searchByEmail').mockResolvedValue([{ email: 'email@email.com' }]);
+    jest
+      .spyOn(createUserModel, 'searchByPassword')
+      .mockResolvedValue([{ password: 'password123' }]);
 
-//     expect(authenticateMock).toHaveBeenCalledWith('test', 'test');
-//     expect(responseMock.json).toHaveBeenCalledWith(requestMock.body);
-//   });
-// });
+    await new AuthController().authenticate(request, response);
+
+    expect(statusMock).toHaveBeenCalledWith(200);
+    expect(jsonMock).toHaveBeenCalledWith('Authentication successful');
+  });
+});

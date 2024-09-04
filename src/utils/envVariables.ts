@@ -2,10 +2,7 @@ import * as envJson from '../../env.json';
 
 type EnvKeys = keyof (typeof envJson)[keyof typeof envJson];
 
-type EnvJson = Record<
-  string,
-  Record<EnvKeys, string | number | boolean | undefined | null>
->;
+type EnvJson = Record<string, Record<EnvKeys, string | number | boolean | undefined | null>>;
 
 export type AppEnv = 'local';
 
@@ -74,9 +71,7 @@ export default class Env {
       env = appEnv as AppEnv;
     } else {
       // eslint-disable-next-line no-console
-      console.error(
-        'Environment variable APP_ENV was not set, defaulting to local',
-      );
+      console.error('Environment variable APP_ENV was not set, defaulting to local');
 
       // eslint-disable-next-line no-process-env
       process.env.APP_ENV = 'local';
