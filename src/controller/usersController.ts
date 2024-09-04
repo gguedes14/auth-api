@@ -1,33 +1,43 @@
 import { Request, Response } from 'express';
-import usersService from '../services/usersService';
+import createUserModel from '../model/UsersModel';
+import TokensModel from '../model/TokensModel';
+import { sign } from 'jsonwebtoken';
+import Env from '../utils/envVariables';
 
-class updateUserController {
-  static async getProfile(
-    request: Request,
-    response: Response,
-  ): Promise<Response> {
-    const { email } = request.query;
+class UsersController {
+  static async createUser(request: Request, response: Response): Promise<Response> {
+    const { name, last_name, email, user_id, password } = request.body;
 
-    const user = await usersService.getProfile({ email: email as string });
-
-    return response.json(user);
-  }
-
-  static async update(request: Request, response: Response): Promise<Response> {
-    const { name, lastName, userId, email, password, old_password } =
-      request.body;
-
-    const user = await usersService.updateUser({
+    const user = await createUserModel.createUser({
       name,
-      lastName,
-      userId,
+      last_name,
       email,
+      user_id,
       password,
-      old_password,
     });
 
-    return response.json(user);
+    const generateToken = sign({ email }, Env.getTokenJwt(), {
+      expiresIn: '30d',
+    });
+
+    await TokensModel.saveToken({ email, token: generateToken });
+
+    return response.status(200).json(user);
+  }
+
+  static async searchByEmail(request: Request, response: Response) {
+    const { email } = request.body;
+
+    const user = await createUserModel.searchByEmail({
+      email: email,
+    });
+
+    if (!email) {
+      return response.status(400).json({ message: 'Email is required' });
+    }
+
+    return response.status(200).json(user);
   }
 }
 
-export default updateUserController;
+export default UsersController;

@@ -13,7 +13,7 @@
     "baseUrl": ".",
     "paths": {
       "@model/*": ["src/model/*"],
-      "@shared/*": ["src/shared/*"]
+      "@shared/*": ["src/routes/*"]
     },
     "typeRoots": ["@types", "./node_modules/@types"],
     "experimentalDecorators": true,
@@ -22,5 +22,6 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src", "migrations"]
+  "include": ["src/**/*.ts", "database/**/*.ts"],
+  "exclude": ["node_modules", "build"]
 }

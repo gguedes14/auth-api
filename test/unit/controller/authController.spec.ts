@@ -1,31 +1,36 @@
-import authController from '../../../src/controller/authController';
-import authService from '../../../src/services/authService';
+import AuthController from '../../../src/controller/authController';
 import { Request, Response } from 'express';
+import createUserModel from '../../../src/model/UsersModel';
 
-describe('Test authController', () => {
+describe('Controller Auth Controller', () => {
   afterEach(() => {
     jest.restoreAllMocks();
   });
 
-  test('Test authenticate', async () => {
-    const requestMock = {
+  test('authenticate', async () => {
+    const request = {
       body: {
-        email: 'test',
-        password: 'test',
+        email: 'email@email.com',
+        password: 'password123',
       },
     } as Request;
 
-    const responseMock = {
-      json: jest.fn(),
+    const statusMock = jest.fn().mockReturnThis();
+    const jsonMock = jest.fn();
+
+    const response = {
+      status: statusMock,
+      json: jsonMock,
     } as unknown as Response;
 
-    const authenticateMock = jest
-      .spyOn(authService, 'authenticate')
-      .mockResolvedValue(requestMock.body);
+    jest.spyOn(createUserModel, 'searchByEmail').mockResolvedValue([{ email: 'email@email.com' }]);
+    jest
+      .spyOn(createUserModel, 'searchByPassword')
+      .mockResolvedValue([{ password: 'password123' }]);
 
-    await new authController().authenticate(requestMock, responseMock);
+    await new AuthController().authenticate(request, response);
 
-    expect(authenticateMock).toHaveBeenCalledWith('test', 'test');
-    expect(responseMock.json).toHaveBeenCalledWith(requestMock.body);
+    expect(statusMock).toHaveBeenCalledWith(200);
+    expect(jsonMock).toHaveBeenCalledWith('Authentication successful');
   });
 });

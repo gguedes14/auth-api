@@ -255,9 +255,7 @@ describe('Util Env Variables', () => {
     expect(
       // eslint-disable-next-line no-console
       console.error,
-    ).toBeCalledWith(
-      'Environment variable APP_ENV was not set, defaulting to local',
-    );
+    ).toHaveBeenCalledWith('Environment variable APP_ENV was not set, defaulting to local');
   });
 
   test('getStringOrThrow successfully', () => {
@@ -267,7 +265,7 @@ describe('Util Env Variables', () => {
     const value = Env.getStringOrThrow('test_string');
     expect(value).toBe('test');
 
-    expect(Env.getString).toBeCalledWith('test_string');
+    expect(Env.getString).toHaveBeenCalledWith('test_string');
   });
 
   test('getStringOrThrow with undefined variable', () => {
@@ -286,7 +284,7 @@ describe('Util Env Variables', () => {
     const value = Env.getBooleanOrThrow('test_bool');
     expect(value).toBe(true);
 
-    expect(Env.getBoolean).toBeCalledWith('test_bool');
+    expect(Env.getBoolean).toHaveBeenCalledWith('test_bool');
   });
 
   test('getBooleanOrThrow with undefined variable', () => {
@@ -305,7 +303,7 @@ describe('Util Env Variables', () => {
     const value = Env.getNumberOrThrow('test_number');
     expect(value).toBe(4);
 
-    expect(Env.getNumber).toBeCalledWith('test_number');
+    expect(Env.getNumber).toHaveBeenCalledWith('test_number');
   });
 
   test('getNumberOrThrow with undefined variable', () => {
@@ -320,6 +318,36 @@ describe('Util Env Variables', () => {
   test('getTokenJwt', () => {
     jest.spyOn(Env, 'getStringOrThrow').mockReturnValue('repo');
     expect(Env.getTokenJwt()).toBe('repo');
-    expect(Env.getStringOrThrow).toBeCalledWith('JWT_TOKEN');
+    expect(Env.getStringOrThrow).toHaveBeenCalledWith('JWT_TOKEN');
+  });
+
+  test('getDbHost', () => {
+    jest.spyOn(Env, 'getStringOrThrow').mockReturnValue('host');
+    expect(Env.getDbHost()).toBe('host');
+    expect(Env.getStringOrThrow).toHaveBeenCalledWith('DB_HOST');
+  });
+
+  test('getDbPort', () => {
+    jest.spyOn(Env, 'getNumberOrThrow').mockReturnValue(1234);
+    expect(Env.getDbPort()).toBe(1234);
+    expect(Env.getNumberOrThrow).toHaveBeenCalledWith('DB_PORT');
+  });
+
+  test('getDbUsername', () => {
+    jest.spyOn(Env, 'getStringOrThrow').mockReturnValue('user');
+    expect(Env.getDbUsername()).toBe('user');
+    expect(Env.getStringOrThrow).toHaveBeenCalledWith('DB_USER');
+  });
+
+  test('getDbPassword', () => {
+    jest.spyOn(Env, 'getStringOrThrow').mockReturnValue('pass');
+    expect(Env.getDbPassword()).toBe('pass');
+    expect(Env.getStringOrThrow).toHaveBeenCalledWith('DB_PASSWORD');
+  });
+
+  test('getDbName', () => {
+    jest.spyOn(Env, 'getStringOrThrow').mockReturnValue('name');
+    expect(Env.getDbName()).toBe('name');
+    expect(Env.getStringOrThrow).toHaveBeenCalledWith('DB_NAME');
   });
 });
