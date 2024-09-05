@@ -54,3 +54,19 @@ To start the API, use the command:
 ```bash
 npm run start
 ```
+
+## Request example:
+
+```url
+ http://localhost:2500/users/create
+```
+
+```json
+{
+  "name": "name",
+  "last_name": "name",
+  "user_id": "name.example", # optional
+  "email": "email@email.com",
+  "password": "abcde"
+}
+```
