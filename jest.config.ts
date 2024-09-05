@@ -8,7 +8,7 @@ const config: Config = {
   coverageProvider: 'v8',
   testEnvironment: 'node',
   testMatch: ['<rootDir>/test/unit/**/*.spec.ts'],
-  testPathIgnorePatterns: ['/node_modules/', '/migrations/'],
+  testPathIgnorePatterns: ['/node_modules/', '/migrations/', '/src/model/'],
   coveragePathIgnorePatterns: ['/node_modules/', '/migrations/'],
 };
 
