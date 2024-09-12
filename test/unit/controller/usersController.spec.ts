@@ -46,41 +46,43 @@ describe('UsersController createUser', () => {
 
   test('Search by email', async () => {
     const request = {
-      body: {
-        email: 'email',
+      query: {
+        email: 'email@example.com',
       },
-    } as Request;
+    } as unknown as Request;
 
     const response = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn(),
     } as unknown as Response;
 
-    jest.spyOn(createUserModel, 'searchByEmail').mockResolvedValueOnce(request.body);
+    const mockUser = { name: 'John', last_name: 'Doe', user_id: 1, email: 'email@example.com' };
+
+    jest.spyOn(createUserModel, 'searchByEmail').mockResolvedValueOnce([mockUser]);
 
     await UsersController.searchByEmail(request, response);
 
     expect(response.status).toHaveBeenCalledWith(200);
-    expect(response.json).toHaveBeenCalledWith({ email: 'email' });
+    expect(response.json).toHaveBeenCalledWith([mockUser]);
   });
 
   test('Search by email without email', async () => {
     const request = {
-      body: {
+      query: {
         email: '',
       },
-    } as Request;
+    } as unknown as Request;
 
     const response = {
       status: jest.fn().mockReturnThis(),
       json: jest.fn(),
     } as unknown as Response;
 
-    jest.spyOn(createUserModel, 'searchByEmail').mockResolvedValueOnce(request.body);
+    jest.spyOn(createUserModel, 'searchByEmail').mockResolvedValueOnce([]);
 
     await UsersController.searchByEmail(request, response);
 
-    expect(response.status).toHaveBeenCalledWith(400);
-    expect(response.json).toHaveBeenCalledWith({ message: 'Email is required' });
+    expect(response.status).toHaveBeenCalledWith(200);
+    expect(response.json).toHaveBeenCalledWith([]);
   });
 });
