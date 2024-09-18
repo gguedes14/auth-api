@@ -1,4 +1,4 @@
-# riley
+# Auth api (Riley)
 
 This API is developed using the MVC (Model-View-Controller) architecture pattern to manage user login and registration. The API provides endpoints for user registration, authentication, and other user management operations.
 
