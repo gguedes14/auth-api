@@ -9,13 +9,13 @@ Follow these steps to set up and run the API in your local environment:
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/gguedes14/riley.git
+   git clone https://github.com/gguedes14/auth-api.git
    ```
 
 2. **Navigate to the project directory**:
 
    ```bash
-   cd riley
+   cd auth-api
    ```
 
 3. **Install the dependencies**:
