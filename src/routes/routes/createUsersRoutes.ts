@@ -6,6 +6,6 @@ const createRouter = Router();
 
 createRouter.post('/create', UsersController.createUser);
 
-createRouter.get('/search', JwtAuthenticate, UsersController.searchByEmail);
+createRouter.post('/search', JwtAuthenticate, UsersController.searchByEmail);
 
 export default createRouter;
