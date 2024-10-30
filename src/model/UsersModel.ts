@@ -4,7 +4,11 @@ class UsersModel {
   static async searchByEmail(options: { email: string }) {
     const search = knex('users')
       .select('name', 'last_name', 'user_id', 'email')
-      .where('email', options.email);
+      .where({email: options.email});
+
+    if(!search) {
+      return 'User not found';
+    }
 
     return search;
   }

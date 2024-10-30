@@ -26,9 +26,11 @@ class UsersController {
   }
 
   static async searchByEmail(request: Request, response: Response): Promise<Response> {
-    const { email } = request.query;
+    const { email } = request.body;
 
-    const user = await createUserModel.searchByEmail({ email: email as string });
+    const user = await createUserModel.searchByEmail({
+      email,
+    });
 
     return response.status(200).json(user);
   }
