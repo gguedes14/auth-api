@@ -8,7 +8,12 @@ class TokensModel {
   }
 
   static async saveToken(options: { email: string; token: string }) {
-    const saveTokens = await knex('tokens').insert({ token: options.token }).returning('token');
+    const getEmail = await knex('users').where({ email: options.email }).first();
+
+    const saveTokens = await knex('tokens').insert({
+      token: options.token,
+      token_id: getEmail.id,
+    });
 
     return saveTokens;
   }

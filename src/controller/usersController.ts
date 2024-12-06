@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import createUserModel from '../model/UsersModel';
-import TokensModel from '../model/TokensModel';
+import TokensModel from '../model/tokensModel';
 import { sign } from 'jsonwebtoken';
 import Env from '../utils/envVariables';
 

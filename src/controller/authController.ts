@@ -4,7 +4,7 @@ import createUserModel from '../model/UsersModel';
 import { Request, Response } from 'express';
 
 class AuthController {
-  public async authenticate(request: Request, response: Response): Promise<Response> {
+  static async authenticate(request: Request, response: Response): Promise<Response> {
     const { email, password } = request.body;
 
     const user = await createUserModel.searchByEmail({

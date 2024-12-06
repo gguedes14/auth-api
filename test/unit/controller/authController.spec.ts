@@ -15,22 +15,45 @@ describe('Controller Auth Controller', () => {
       },
     } as Request;
 
-    const statusMock = jest.fn().mockReturnThis();
-    const jsonMock = jest.fn();
-
     const response = {
-      status: statusMock,
-      json: jsonMock,
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
     } as unknown as Response;
 
     jest.spyOn(createUserModel, 'searchByEmail').mockResolvedValue([{ email: 'email@email.com' }]);
-    jest
-      .spyOn(createUserModel, 'searchByPassword')
-      .mockResolvedValue([{ password: 'password123' }]);
+    jest.spyOn(createUserModel, 'searchByPassword').mockResolvedValue([{ password: 'password123' }]);
 
-    await new AuthController().authenticate(request, response);
+    await AuthController.authenticate(request, response);
 
-    expect(statusMock).toHaveBeenCalledWith(200);
-    expect(jsonMock).toHaveBeenCalledWith('Authentication successful');
+    expect(createUserModel.searchByEmail).toHaveBeenCalledWith({ email: 'email@email.com' });
+    expect(createUserModel.searchByPassword).toHaveBeenCalledWith({ password: 'password123' });
+
+    expect(response.status).toHaveBeenCalledWith(200);
+    expect(response.json).toHaveBeenCalledWith('Authentication successful');
+  });
+
+  test('authenticate with user not found', async () => {
+    const request = {
+      body: {
+        email: '',
+        password: '',
+      },
+    } as Request;
+
+    const response = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    } as never as Response;
+
+    jest.spyOn(createUserModel, 'searchByEmail').mockResolvedValue(request.body.email);
+    jest.spyOn(createUserModel, 'searchByPassword').mockResolvedValue(request.body.password);
+
+    await AuthController.authenticate(request, response);
+
+    expect(createUserModel.searchByEmail).toHaveBeenCalledWith({ email: '' });
+    expect(createUserModel.searchByPassword).toHaveBeenCalledWith({ password: '' });
+
+    expect(response.status).toHaveBeenCalledWith(400);
+    expect(response.json).toHaveBeenCalledWith({ message: 'User not found' });
   });
 });
