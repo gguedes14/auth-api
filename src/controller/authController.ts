@@ -1,30 +1,29 @@
-import { sign } from 'jsonwebtoken';
-import Env from '../utils/envVariables';
-import createUserModel from '../model/UsersModel';
-import { Request, Response } from 'express';
+// import { sign } from 'jsonwebtoken';
+// import createUserModel from '../models/UsersModel';
+// import { Request, Response } from 'express';
 
-class AuthController {
-  public async authenticate(request: Request, response: Response): Promise<Response> {
-    const { email, password } = request.body;
+// class AuthController {
+//   public async authenticate(request: Request, response: Response): Promise<Response> {
+//     const { email, password } = request.body;
 
-    const user = await createUserModel.searchByEmail({
-      email,
-    });
+//     const user = await createUserModel.searchByEmail({
+//       email,
+//     });
 
-    const userPassword = await createUserModel.searchByPassword({
-      password,
-    });
+//     const userPassword = await createUserModel.searchByPassword({
+//       password,
+//     });
 
-    if (!user || !userPassword) {
-      return response.status(400).json({ message: 'User not found' });
-    }
+//     if (!user || !userPassword) {
+//       return response.status(400).json({ message: 'User not found' });
+//     }
 
-    sign({ email }, Env.getTokenJwt(), {
-      expiresIn: '30d',
-    });
+//     const token = sign({ email }, process.env.JWT_TOKEN || '', {
+//       expiresIn: '30d',
+//     });
 
-    return response.status(200).json('Authentication successful');
-  }
-}
+//     return response.status(200).json({ message: 'Authentication successful', token });
+//   }
+// }
 
-export default AuthController;
+// export default AuthController;

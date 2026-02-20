@@ -1,39 +1,26 @@
-import { Request, Response } from 'express';
-import createUserModel from '../model/UsersModel';
-import TokensModel from '../model/TokensModel';
-import { sign } from 'jsonwebtoken';
-import Env from '../utils/envVariables';
+import { Request, Response } from "express";
+import { UsersService } from "../service/usersService";
 
-class UsersController {
-  static async createUser(request: Request, response: Response): Promise<Response> {
-    const { name, last_name, email, user_id, password } = request.body;
+export class UsersControler {
+  static async createUser(req: Request, res: Response) {
+    try {
+      const { name, taxId, email, password, birthDate } = req.body;
 
-    const user = await createUserModel.createUser({
-      name,
-      last_name,
-      email,
-      user_id,
-      password,
-    });
+      const user = await UsersService.createUser({
+        name,
+        email,
+        password,
+        birthDate: new Date(birthDate).toISOString(),
+        taxId
+      });
 
-    const generateToken = sign({ email }, Env.getTokenJwt(), {
-      expiresIn: '30d',
-    });
-
-    await TokensModel.saveToken({ email, token: generateToken });
-
-    return response.status(200).json(user);
-  }
-
-  static async searchByEmail(request: Request, response: Response): Promise<Response> {
-    const { email } = request.body;
-
-    const user = await createUserModel.searchByEmail({
-      email,
-    });
-
-    return response.status(200).json(user);
+      return res.status(201).json(user);
+    } catch (error) {
+      if (error instanceof Error) {
+        return res.status(400).json({
+          message: error.message
+        });
+      }
+    }
   }
 }
-
-export default UsersController;

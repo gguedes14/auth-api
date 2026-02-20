@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
-import Env from './envVariables';
 import ApiError from '../enum/ApiError';
 
 export default function JwtAuthenticate(
@@ -17,7 +16,7 @@ export default function JwtAuthenticate(
   const [, token] = header.split(' ');
 
   try {
-    verify(token, Env.getTokenJwt());
+    verify(token, process.env.JWT_TOKEN || '');
 
     return next();
   } catch {
