@@ -1,11 +1,9 @@
 import { Router } from 'express';
-import UsersController from '../../controller/usersController';
-import JwtAuthenticate from '../../utils/jwt';
+
+import { UsersControler } from '../../controller/usersController';
 
 const createRouter = Router();
 
-createRouter.post('/create', UsersController.createUser);
-
-createRouter.post('/search', JwtAuthenticate, UsersController.searchByEmail);
+createRouter.post('/create', UsersControler.createUser);
 
 export default createRouter;

@@ -10,10 +10,9 @@
     "noImplicitAny": true,
     "strictPropertyInitialization": false,
     "esModuleInterop": true,
-    "baseUrl": ".",
     "paths": {
-      "@model/*": ["src/model/*"],
-      "@shared/*": ["src/routes/*"]
+      "@model/*": ["./src/database/models/*"],
+      "@shared/*": ["./src/routes/*"]
     },
     "typeRoots": ["@types", "./node_modules/@types"],
     "experimentalDecorators": true,
@@ -22,6 +21,6 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*.ts", "database/**/*.ts"],
+  "include": ["src/**/*.ts", "src/database/**/*.ts"],
   "exclude": ["node_modules", "build"]
 }
