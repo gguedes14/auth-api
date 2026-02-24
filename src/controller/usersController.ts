@@ -4,10 +4,11 @@ import { UsersService } from "../service/usersService";
 export class UsersControler {
   static async createUser(req: Request, res: Response) {
     try {
-      const { name, taxId, email, password, birthDate } = req.body;
+      const { name, lastName, taxId, email, password, birthDate } = req.body;
 
       const user = await UsersService.createUser({
         name,
+        lastName,
         email,
         password,
         birthDate: new Date(birthDate).toISOString(),
