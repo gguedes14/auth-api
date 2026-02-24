@@ -60,7 +60,7 @@ export class UsersController {
     } catch (error) {
       if (error instanceof Error) {
         return res.status(400).json({
-          message: "Invalid e-mail"
+          message: error.message
         });
       }
     }
