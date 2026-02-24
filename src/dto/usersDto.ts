@@ -6,3 +6,11 @@ export interface UsersDTO {
   taxId: string;
   birthDate: string;
 }
+
+export interface UpdateUserDTO {
+  name?: string;
+  lastName?: string;
+  taxId?: string;
+  email?: string;
+  birthDate?: string;
+}
