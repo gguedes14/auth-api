@@ -1,29 +1,20 @@
-// import { sign } from 'jsonwebtoken';
-// import createUserModel from '../models/UsersModel';
-// import { Request, Response } from 'express';
+import { Request, Response } from 'express';
+import { AuthService } from '../service/authService';
 
-// class AuthController {
-//   public async authenticate(request: Request, response: Response): Promise<Response> {
-//     const { email, password } = request.body;
+class AuthController {
+  static async authenticate(req: Request, res: Response) {
+    const { email, password } = req.body;
 
-//     const user = await createUserModel.searchByEmail({
-//       email,
-//     });
+    try {
+      const login = await AuthService.login( email, password);
 
-//     const userPassword = await createUserModel.searchByPassword({
-//       password,
-//     });
+      res.status(200).send(login);
+    } catch (error){
+       if (error instanceof Error) {
+        res.status(401).send({ message: error.message });
+       }
+    }
+  }
+}
 
-//     if (!user || !userPassword) {
-//       return response.status(400).json({ message: 'User not found' });
-//     }
-
-//     const token = sign({ email }, process.env.JWT_TOKEN || '', {
-//       expiresIn: '30d',
-//     });
-
-//     return response.status(200).json({ message: 'Authentication successful', token });
-//   }
-// }
-
-// export default AuthController;
+export default AuthController;
