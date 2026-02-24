@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { AuthService } from '../service/authService';
 
-class AuthController {
+export class AuthController {
   static async authenticate(req: Request, res: Response) {
     const { email, password } = req.body;
 
@@ -16,5 +16,3 @@ class AuthController {
     }
   }
 }
-
-export default AuthController;
