@@ -1,5 +1,6 @@
 import { prisma } from "../database/prisma";
 import { Prisma, User } from "@prisma/client";
+import { UpdateUserDTO } from "../dto/usersDto";
 
 export class UsersRepository {
   static async createUser(data: Prisma.UserCreateInput): Promise<User> {
@@ -27,7 +28,19 @@ export class UsersRepository {
       where: { email },
       omit: {
         password: true,
+        deletedAt: true,
       },
+    });
+  }
+
+  static async updateUserById(id: string, dto: UpdateUserDTO) {
+    return prisma.user.update({
+      where: { id },
+      data: dto,
+      omit: {
+        password: true,
+        deletedAt: true,
+      }
     });
   }
 }

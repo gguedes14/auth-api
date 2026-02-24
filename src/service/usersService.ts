@@ -1,4 +1,4 @@
-import { UsersDTO } from "../dto/usersDto";
+import { UsersDTO, UpdateUserDTO } from "../dto/usersDto";
 import { UsersRepository } from "../repository/usersRepository";
 import bcrypt from "bcrypt";
 
@@ -28,5 +28,27 @@ export class UsersService {
     }
 
     return findId;
+  }
+
+  static async updateUserById(id: string, dto: UpdateUserDTO) {
+    const updateUser = await UsersRepository.updateUserById(id, dto)
+
+    if (!updateUser.id) {
+      throw new Error('Id is required');
+    }
+
+    const userExists = await UsersRepository.findById(id);
+
+    if (!userExists) {
+      throw new Error('User not found');
+    }
+
+    const usedEmail = await UsersRepository.findByEmail(updateUser.email);
+
+    if (usedEmail) {
+      throw new Error('Invalid e-mail');
+    }
+
+    return updateUser;
   }
 }
