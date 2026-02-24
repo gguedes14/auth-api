@@ -5,4 +5,4 @@ const authRouter = Router();
 
 authRouter.post('/login', AuthController.authenticate);
 
-export default authRouter;
+export { authRouter };

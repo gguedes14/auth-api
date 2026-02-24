@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
-import ApiError from '../enum/ApiError';
 
-export default function JwtAuthenticate(
+export function JwtAuthenticate(
   request: Request,
   response: Response,
   next: NextFunction,
@@ -10,7 +9,8 @@ export default function JwtAuthenticate(
   const header = request.headers.authorization;
 
   if (!header) {
-    throw new ApiError('JWT is missing', 400);
+    response.status(401).send('Access token not found');
+    return
   }
 
   const [, token] = header.split(' ');
@@ -19,7 +19,9 @@ export default function JwtAuthenticate(
     verify(token, process.env.JWT_TOKEN || '');
 
     return next();
-  } catch {
-    throw new ApiError('JWT token invalid', 400);
+  } catch(error) {
+    if (error instanceof Error) {
+      response.status(401).send('Unauthorized');
+    }
   }
 }
