@@ -45,7 +45,7 @@ export class UsersService {
 
     const usedEmail = await UsersRepository.findByEmail(updateUser.email);
 
-    if (usedEmail && usedEmail.id !== id) {
+    if (usedEmail) {
       throw new Error('Invalid e-mail');
     }
 
