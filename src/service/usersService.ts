@@ -19,4 +19,14 @@ export class UsersService {
 
     return 'User created with successfully'
   }
+
+  static async findById(id: string) {
+    const findId = await UsersRepository.findById(id)
+
+    if (!findId) {
+      throw new Error("User not found");
+    }
+
+    return findId;
+  }
 }

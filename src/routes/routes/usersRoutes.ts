@@ -1,10 +1,10 @@
-// import { Router } from 'express';
-// import usersController from '../../controller/usersController';
+import { Router } from 'express';
 
-// const createRouter = Router();
+import { UsersControler } from '../../controller/usersController';
 
-// createRouter.put('/', usersController.updateProfile);
+const usersRouter = Router();
 
-// createRouter.get('/', usersController.getProfile);
+usersRouter.post('/create', UsersControler.createUser);
+usersRouter.get('/:id', UsersControler.findById);
 
-// export default createRouter;
+export default usersRouter;

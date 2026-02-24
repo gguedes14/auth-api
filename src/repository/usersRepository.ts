@@ -13,6 +13,7 @@ export class UsersRepository {
       where: { id },
       omit: {
         password: true,
+        deletedAt: true
       },
     });
   }
