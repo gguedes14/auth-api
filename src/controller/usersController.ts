@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { UsersService } from "../service/usersService";
+import { AppError } from "../errors/ApiError";
 
 export class UsersController {
   static async createUser(req: Request, res: Response) {
@@ -17,7 +18,7 @@ export class UsersController {
 
       return res.status(201).json(user);
     } catch (error) {
-      if (error instanceof Error) {
+      if (error instanceof AppError) {
         return res.status(400).json({
           message: error.message
         });
@@ -33,7 +34,7 @@ export class UsersController {
 
       return res.status(200).json(user);
     } catch (error) {
-      if (error instanceof Error) {
+      if (error instanceof AppError) {
         return res.status(400).json({
           message: error.message
         });
@@ -58,8 +59,8 @@ export class UsersController {
 
       return res.status(200).json(updateUser);
     } catch (error) {
-      if (error instanceof Error) {
-        return res.status(400).json({
+      if (error instanceof AppError) {
+        return res.status(error.statusCode).json({
           message: error.message
         });
       }
