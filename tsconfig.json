@@ -3,24 +3,15 @@
     "target": "es6",
     "module": "commonjs",
     "lib": ["es6"],
-    "allowJs": true,
-    "outDir": "build",
-    "rootDir": ".",
     "strict": true,
-    "noImplicitAny": true,
-    "strictPropertyInitialization": false,
     "esModuleInterop": true,
-    "paths": {
-      "@model/*": ["./src/database/models/*"],
-      "@shared/*": ["./src/routes/*"]
-    },
-    "typeRoots": ["@types", "./node_modules/@types"],
+    "skipLibCheck": true,
+    "types": ["node", "jest"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["src/**/*.ts", "src/database/**/*.ts"],
+  "include": ["src/**/*.ts", "test/**/*.ts"],
   "exclude": ["node_modules", "build"]
 }
