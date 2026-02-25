@@ -1,4 +1,4 @@
-import ApiError from '../../../src/enum/ApiError';
+import { AppError } from '../../../src/errors/ApiError';
 
 describe('Test Api enum', () => {
   afterEach(() => {
@@ -9,7 +9,7 @@ describe('Test Api enum', () => {
     const messageMock = 'bad request';
     const statusMock = 400;
 
-    const apiError = new ApiError(messageMock, statusMock);
+    const apiError = new AppError(statusMock, messageMock);
 
     expect(apiError.message).toBe(messageMock);
   });
