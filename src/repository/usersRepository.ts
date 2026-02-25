@@ -37,6 +37,10 @@ export class UsersRepository {
     return prisma.user.update({
       where: { id },
       data: dto,
+      omit: {
+        password: true,
+        deletedAt: true,
+      }
     });
   }
 }
