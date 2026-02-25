@@ -7,6 +7,6 @@ const usersRouter = Router();
 
 usersRouter.post('/create', UsersController.createUser);
 usersRouter.get('/:id', JwtAuthenticate, UsersController.findById);
-usersRouter.patch('/:id', UsersController.updateUserById);
+usersRouter.patch('/:id', JwtAuthenticate, UsersController.updateUserById);
 
 export { usersRouter };

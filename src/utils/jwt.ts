@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
+import { AppError } from '../errors/ApiError';
 
 export function JwtAuthenticate(
   request: Request,
@@ -20,7 +21,7 @@ export function JwtAuthenticate(
 
     return next();
   } catch(error) {
-    if (error instanceof Error) {
+    if (error instanceof AppError) {
       response.status(401).send('Unauthorized');
     }
   }

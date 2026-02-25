@@ -1,13 +1,16 @@
 import { UsersDTO, UpdateUserDTO } from "../dto/usersDto";
 import { UsersRepository } from "../repository/usersRepository";
+import { AppError } from "../errors/ApiError";
+import { HttpStatus } from "../errors/enum/httpStatus";
 import bcrypt from "bcrypt";
+import { Prisma } from '@prisma/client';
 
 export class UsersService {
   static async createUser(dto: UsersDTO) {
     const email = await UsersRepository.findByEmail(dto.email);
 
     if (email) {
-      throw new Error("User already exists");
+      throw new AppError(HttpStatus.CONFLICT, "User already exists");
     }
 
     const hashedPassword = await bcrypt.hash(dto.password, 10);
@@ -24,31 +27,30 @@ export class UsersService {
     const findId = await UsersRepository.findById(id)
 
     if (!findId) {
-      throw new Error("User not found");
+      throw new AppError(HttpStatus.NOT_FOUND, "User not found");
     }
 
     return findId;
   }
 
   static async updateUserById(id: string, dto: UpdateUserDTO) {
-    const updateUser = await UsersRepository.updateUserById(id, dto)
-
-    if (!updateUser.id) {
-      throw new Error('Id is required');
-    }
-
     const userExists = await UsersRepository.findById(id);
 
     if (!userExists) {
-      throw new Error('User not found');
+      throw new AppError(HttpStatus.NOT_FOUND, 'User not found');
     }
 
-    const usedEmail = await UsersRepository.findByEmail(updateUser.email);
+    try {
+      return await UsersRepository.updateUserById(id, dto);
+    } catch (error) {
+        if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2002'
+      ) {
+        throw new AppError(HttpStatus.CONFLICT, 'Invalid e-mail');
+      }
 
-    if (usedEmail) {
-      throw new Error('Invalid e-mail');
+      throw error;
     }
-
-    return updateUser;
   }
 }
